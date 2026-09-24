@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+
+  --color-brand-black: #0A0A0A;
+  --color-brand-taupe: #B39377;
+  --color-brand-ivory: #F7F4EF;
+  --color-brand-warm: #D9D2C9;
+  --color-brand-graphite: #3E3E3E;
+  --color-brand-paper: #FBF9F5;
+  --color-brand-line: #E4DDD3;
+  --color-brand-muted: #6B645C;
+  --color-brand-taupe-deep: #8A6D52;
+  --color-brand-ok: #3F7A4E;
+  --color-brand-bad: #B0443A;
+}
+
+/* Custom scrollbar hiding & smooth UI enhancements */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Texture overlay for fridge metal effect */
+.fridge-texture {
+  background: linear-gradient(100deg, #8e8f91 0%, #c9cacc 18%, #a6a7a9 34%, #d7d8da 52%, #9c9d9f 70%, #bfc0c2 86%, #8f9092 100%);
+}
+
+.fridge-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, rgba(0, 0, 0, 0.03) 1px 3px);
+  pointer-events: none;
+}
