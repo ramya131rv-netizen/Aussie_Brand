@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { LogoMark } from './Logo';
 
 interface NavItem {
@@ -19,6 +20,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export const Navbar: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('story');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,8 +40,32 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  // Close mobile menu when resizing to desktop width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Prevent background scrolling when mobile hamburger menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, id: string) => {
     e.preventDefault();
+    setIsOpen(false);
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -71,15 +97,15 @@ export const Navbar: React.FC = () => {
           className="flex items-center gap-2.5 text-[#0A0A0A] no-underline shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8A6D52] rounded"
         >
           <div className="text-[4px]">
-            <LogoMark className="w-[28px] sm:w-[30px]" />
+            <LogoMark className="w-[26px] sm:w-[30px]" />
           </div>
-          <span className="font-semibold text-xs tracking-[0.2em] uppercase font-sans hidden sm:inline-block group-hover:text-[#8A6D52] transition-colors">
+          <span className="font-semibold text-xs tracking-[0.2em] uppercase font-sans text-[#0A0A0A] group-hover:text-[#8A6D52] transition-colors">
             AUSSIE SNAP
           </span>
         </a>
 
-        {/* Horizontal Navigation List */}
-        <ul className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar py-1 flex-1 justify-start sm:justify-end mask-gradient-r">
+        {/* Desktop Navigation Links */}
+        <ul className="hidden md:flex items-center gap-1 sm:gap-1.5 py-1 justify-end">
           {NAV_ITEMS.map((item) => {
             const isActive = activeTab === item.id;
             return (
@@ -99,7 +125,98 @@ export const Navbar: React.FC = () => {
             );
           })}
         </ul>
+
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          className="md:hidden flex items-center justify-center p-2 rounded-lg text-[#0A0A0A] hover:bg-black/5 active:bg-black/10 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8A6D52]"
+        >
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
+
+      {/* Mobile Navigation Hamburger Menu Drawer */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-x-0 top-[56px] bottom-0 z-40 bg-[#F7F4EF] border-t border-[#E4DDD3] flex flex-col justify-between overflow-y-auto animate-in slide-in-from-top-2 duration-200">
+          <div className="p-5 space-y-6">
+            {/* Header branding inside Mobile Hamburger Menu */}
+            <div className="pb-4 border-b border-[#E4DDD3] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#8A6D52] block mb-0.5">
+                  Brand Guidelines
+                </span>
+                <span className="font-extrabold text-base tracking-[0.15em] uppercase text-[#0A0A0A] font-sans">
+                  AUSSIE SNAP
+                </span>
+              </div>
+              <div className="text-[9px] font-mono px-2.5 py-1 bg-[#E4DDD3]/50 text-[#6B645C] rounded-full uppercase tracking-wider font-semibold">
+                Menu
+              </div>
+            </div>
+
+            {/* Navigation links inside Mobile Hamburger Menu */}
+            <nav className="space-y-2" aria-label="Mobile section links">
+              {NAV_ITEMS.map((item, index) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(e) => scrollToSection(e, item.id)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
+                      isActive
+                        ? 'bg-[#0A0A0A] text-[#F7F4EF] shadow-md font-semibold translate-x-1'
+                        : 'text-[#0A0A0A] bg-white/40 hover:bg-black/5 border border-[#E4DDD3]/60'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`text-[10px] font-mono font-bold tracking-wider ${
+                          isActive ? 'text-[#B39377]' : 'text-[#6B645C]'
+                        }`}
+                      >
+                        0{index + 1}
+                      </span>
+                      <span className="text-sm font-medium tracking-[0.12em] uppercase font-sans">
+                        {item.label}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {isActive && (
+                        <span className="text-[9px] uppercase tracking-widest bg-[#B39377] text-white px-2 py-0.5 rounded-full font-bold">
+                          Active
+                        </span>
+                      )}
+                      <ChevronRight
+                        className={`w-4 h-4 transition-transform ${
+                          isActive ? 'text-[#F7F4EF] translate-x-0.5' : 'text-[#6B645C]'
+                        }`}
+                      />
+                    </div>
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Footer branding info inside Mobile Hamburger Menu */}
+          <div className="p-5 border-t border-[#E4DDD3] bg-[#E4DDD3]/20 flex items-center justify-between text-xs text-[#6B645C]">
+            <span className="font-sans font-medium">Aussie Snap Identity Guide</span>
+            <button
+              type="button"
+              onClick={(e) => scrollToSection(e, 'top')}
+              className="text-[#8A6D52] hover:underline font-semibold text-[11px] uppercase tracking-wider cursor-pointer"
+            >
+              Back to Top ↑
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
+
