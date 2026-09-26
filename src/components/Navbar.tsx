@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = NAV_ITEMS.map(item => document.getElementById(item.id));
+      const sections = NAV_ITEMS.map((item) => document.getElementById(item.id));
       const scrollPosition = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -51,19 +51,10 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Prevent background scrolling when mobile hamburger menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, id: string) => {
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+    id: string
+  ) => {
     e.preventDefault();
     setIsOpen(false);
     if (id === 'top') {
@@ -78,7 +69,7 @@ export const Navbar: React.FC = () => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
       setActiveTab(id);
     }
@@ -86,7 +77,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 bg-[#F7F4EF]/95 backdrop-blur-md border-b border-[#E4DDD3] shadow-xs transition-all duration-200"
+      className="fixed top-0 left-0 right-0 z-50 bg-[#F7F4EF] border-b border-[#E4DDD3] shadow-xs transition-all duration-200"
       aria-label="Brand guidelines navigation"
     >
       <div className="max-w-[1180px] 2xl:max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 h-14 sm:h-[60px] flex items-center justify-between gap-4">
@@ -138,27 +129,27 @@ export const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation Hamburger Menu Drawer */}
+      {/* Mobile Navigation Hamburger Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden fixed inset-x-0 top-[56px] bottom-0 z-40 bg-[#F7F4EF] border-t border-[#E4DDD3] flex flex-col justify-between overflow-y-auto animate-in slide-in-from-top-2 duration-200">
-          <div className="p-5 space-y-6">
+        <div className="absolute top-full left-0 right-0 bg-[#F7F4EF] border-b border-[#E4DDD3] shadow-2xl max-h-[calc(100vh-56px)] overflow-y-auto z-50">
+          <div className="p-4 sm:p-5 space-y-4">
             {/* Header branding inside Mobile Hamburger Menu */}
-            <div className="pb-4 border-b border-[#E4DDD3] flex items-center justify-between">
+            <div className="pb-3 border-b border-[#E4DDD3] flex items-center justify-between">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-[#8A6D52] block mb-0.5">
-                  Brand Guidelines
+                  Brand Guidelines Navigation
                 </span>
-                <span className="font-extrabold text-base tracking-[0.15em] uppercase text-[#0A0A0A] font-sans">
+                <span className="font-extrabold text-sm tracking-[0.15em] uppercase text-[#0A0A0A] font-sans">
                   AUSSIE SNAP
                 </span>
               </div>
-              <div className="text-[9px] font-mono px-2.5 py-1 bg-[#E4DDD3]/50 text-[#6B645C] rounded-full uppercase tracking-wider font-semibold">
-                Menu
-              </div>
+              <span className="text-[9px] font-mono px-2.5 py-1 bg-[#E4DDD3]/60 text-[#0A0A0A] rounded-full uppercase tracking-wider font-bold">
+                {NAV_ITEMS.length} Sections
+              </span>
             </div>
 
             {/* Navigation links inside Mobile Hamburger Menu */}
-            <nav className="space-y-2" aria-label="Mobile section links">
+            <nav className="grid grid-cols-1 gap-2" aria-label="Mobile section links">
               {NAV_ITEMS.map((item, index) => {
                 const isActive = activeTab === item.id;
                 return (
@@ -166,57 +157,57 @@ export const Navbar: React.FC = () => {
                     key={item.id}
                     href={`#${item.id}`}
                     onClick={(e) => scrollToSection(e, item.id)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-150 ${
                       isActive
-                        ? 'bg-[#0A0A0A] text-[#F7F4EF] shadow-md font-semibold translate-x-1'
-                        : 'text-[#0A0A0A] bg-white/40 hover:bg-black/5 border border-[#E4DDD3]/60'
+                        ? 'bg-[#0A0A0A] shadow-md'
+                        : 'bg-white border border-[#E4DDD3] hover:bg-[#E4DDD3]/30'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <span
-                        className={`text-[10px] font-mono font-bold tracking-wider ${
-                          isActive ? 'text-[#B39377]' : 'text-[#6B645C]'
+                        className={`text-[11px] font-mono font-bold ${
+                          isActive ? 'text-[#B39377]' : 'text-[#8A6D52]'
                         }`}
                       >
                         0{index + 1}
                       </span>
-                      <span className="text-sm font-medium tracking-[0.12em] uppercase font-sans">
+                      <span className={`text-sm font-semibold tracking-[0.14em] uppercase font-sans ${isActive ? 'text-[#F7F4EF]' : 'text-[#0A0A0A]'}`}>
                         {item.label}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {isActive && (
+                      {isActive ? (
                         <span className="text-[9px] uppercase tracking-widest bg-[#B39377] text-white px-2 py-0.5 rounded-full font-bold">
                           Active
                         </span>
+                      ) : (
+                        <ChevronRight className="w-4 h-4 text-[#6B645C]" />
                       )}
-                      <ChevronRight
-                        className={`w-4 h-4 transition-transform ${
-                          isActive ? 'text-[#F7F4EF] translate-x-0.5' : 'text-[#6B645C]'
-                        }`}
-                      />
                     </div>
                   </a>
                 );
               })}
             </nav>
-          </div>
 
-          {/* Footer branding info inside Mobile Hamburger Menu */}
-          <div className="p-5 border-t border-[#E4DDD3] bg-[#E4DDD3]/20 flex items-center justify-between text-xs text-[#6B645C]">
-            <span className="font-sans font-medium">Aussie Snap Identity Guide</span>
-            <button
-              type="button"
-              onClick={(e) => scrollToSection(e, 'top')}
-              className="text-[#8A6D52] hover:underline font-semibold text-[11px] uppercase tracking-wider cursor-pointer"
-            >
-              Back to Top ↑
-            </button>
+            {/* Footer inside Mobile Hamburger Menu */}
+            <div className="pt-3 border-t border-[#E4DDD3] flex items-center justify-between text-xs text-[#6B645C]">
+              <span className="font-sans font-medium text-[11px]">
+                Aussie Snap Identity Guide
+              </span>
+              <button
+                type="button"
+                onClick={(e) => scrollToSection(e, 'top')}
+                className="text-[#8A6D52] hover:underline font-bold text-[11px] uppercase tracking-wider cursor-pointer"
+              >
+                Back to Top ↑
+              </button>
+            </div>
           </div>
         </div>
       )}
     </nav>
   );
 };
+
 
