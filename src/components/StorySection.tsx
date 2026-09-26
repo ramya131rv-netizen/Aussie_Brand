@@ -1,4 +1,5 @@
 import React from 'react';
+import { SectionNav } from './SectionNav';
 
 export const StorySection: React.FC = () => {
   return (
@@ -72,6 +73,9 @@ export const StorySection: React.FC = () => {
             </p>
           </div>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav nextId="logo" nextLabel="Logo" />
       </div>
     </section>
   );

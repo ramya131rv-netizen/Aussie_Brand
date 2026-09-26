@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { SectionNav } from './SectionNav';
 
 interface Swatch {
   id: string;
@@ -320,6 +321,9 @@ export const ColourSection: React.FC<ColourSectionProps> = ({ onCopyToast }) => 
             </div>
           </div>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="misuse" prevLabel="Misuse" nextId="type" nextLabel="Type" />
       </div>
     </section>
   );

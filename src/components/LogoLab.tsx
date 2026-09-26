@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Logo, type LogoVariant } from './Logo';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { SectionNav } from './SectionNav';
 
 interface BgPreset {
   id: string;
@@ -320,6 +321,9 @@ export const LogoLab: React.FC = () => {
             </figcaption>
           </figure>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="story" prevLabel="Story" nextId="misuse" nextLabel="Misuse" />
       </div>
     </section>
   );

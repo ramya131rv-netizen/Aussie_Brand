@@ -1,5 +1,6 @@
 import React from 'react';
 import { Logo } from './Logo';
+import { SectionNav } from './SectionNav';
 
 export const MisuseSection: React.FC = () => {
   return (
@@ -161,6 +162,9 @@ export const MisuseSection: React.FC = () => {
             </figcaption>
           </figure>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="logo" prevLabel="Logo" nextId="colour" nextLabel="Colour" />
       </div>
     </section>
   );

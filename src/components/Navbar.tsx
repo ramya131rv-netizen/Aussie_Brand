@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = NAV_ITEMS.map(item => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -40,19 +40,30 @@ export const Navbar: React.FC = () => {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 64;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
       setActiveTab(id);
     }
   };
 
   return (
     <nav
-      className="sticky top-0 z-40 bg-[#F7F4EF]/90 backdrop-blur-md border-b border-[#E4DDD3] transition-all"
+      className="fixed top-0 left-0 right-0 z-50 bg-[#F7F4EF]/95 backdrop-blur-md border-b border-[#E4DDD3] shadow-xs transition-all duration-200"
       aria-label="Brand guidelines navigation"
     >
-      <div className="max-w-[1180px] 2xl:max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 h-14 sm:h-[58px] flex items-center justify-between gap-4">
+      <div className="max-w-[1180px] 2xl:max-w-[1320px] mx-auto px-4 sm:px-6 md:px-10 h-14 sm:h-[60px] flex items-center justify-between gap-4">
         {/* Brand Link */}
         <a
           href="#top"
@@ -78,7 +89,7 @@ export const Navbar: React.FC = () => {
                   onClick={(e) => scrollToSection(e, item.id)}
                   className={`block px-2.5 sm:px-3 py-1.5 text-[11px] font-medium tracking-[0.16em] uppercase rounded-full whitespace-nowrap transition-all duration-200 ${
                     isActive
-                      ? 'bg-[#0A0A0A] text-[#F7F4EF] shadow-sm'
+                      ? 'bg-[#0A0A0A] text-[#F7F4EF] shadow-sm font-semibold scale-[1.02]'
                       : 'text-[#6B645C] hover:text-[#0A0A0A] hover:bg-black/5'
                   }`}
                 >

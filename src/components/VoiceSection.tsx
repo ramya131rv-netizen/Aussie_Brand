@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { SectionNav } from './SectionNav';
 
 export const VoiceSection: React.FC = () => {
   return (
@@ -88,6 +89,9 @@ export const VoiceSection: React.FC = () => {
             Moments <em className="not-italic text-[#8A6D52]">That Stay Close</em>
           </h2>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="applications" prevLabel="Applications" nextId="top" nextLabel="Back to Top" />
       </div>
     </section>
   );

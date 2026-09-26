@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Upload } from 'lucide-react';
+import { SectionNav } from './SectionNav';
 
 interface SizePreset {
   id: string;
@@ -321,6 +322,9 @@ export const MagnetStudio: React.FC<MagnetStudioProps> = ({ onCopyToast }) => {
             </p>
           </div>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="type" prevLabel="Type" nextId="applications" nextLabel="Applications" />
       </div>
     </section>
   );

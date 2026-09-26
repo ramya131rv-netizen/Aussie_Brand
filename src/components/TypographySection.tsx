@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SectionNav } from './SectionNav';
 
 export const TypographySection: React.FC = () => {
   // Interactive Type Tester State
@@ -253,6 +254,9 @@ export const TypographySection: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="colour" prevLabel="Colour" nextId="magnets" nextLabel="Magnets" />
       </div>
     </section>
   );

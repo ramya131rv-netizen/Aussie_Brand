@@ -28,7 +28,7 @@ export function App() {
       <Navbar />
 
       {/* Main Content Sections */}
-      <main>
+      <main className="pt-[56px] sm:pt-[60px]">
         <Hero />
         <StorySection />
         <LogoLab />

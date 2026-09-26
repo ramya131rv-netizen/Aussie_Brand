@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Maximize2, X } from 'lucide-react';
 import { Logo, LogoMark } from './Logo';
+import { SectionNav } from './SectionNav';
 
 interface ApplicationItem {
   id: string;
@@ -378,6 +379,9 @@ export const ApplicationsSection: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Section Navigation */}
+        <SectionNav prevId="magnets" prevLabel="Magnets" nextId="voice" nextLabel="Voice" />
       </div>
 
       {/* Enlarged Lightbox Modal */}
